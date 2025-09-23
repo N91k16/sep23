@@ -9,7 +9,6 @@ terraform {
 
 provider "azurerm" {
   features {}
-  subscription_id = "8b10287d-12d6-41e3-b62c-33457c006e96"
 }
 
 # ---------- Resource Group ----------
@@ -46,45 +45,45 @@ resource "azurerm_subnet" "db_subnet" {
   address_prefixes     = ["15.0.3.0/24"] # Correction yahan hai
 }
 
-# # ---------- NSGs ----------
-# resource "azurerm_network_security_group" "app_nsg" {
-#   name                = "app-nsg"
-#   location            = azurerm_resource_group.rg.location
-#   resource_group_name = azurerm_resource_group.rg.name
-# }
-# resource "azurerm_network_security_group" "db_nsg" {
-#   name                = "db-nsg"
-#   location            = azurerm_resource_group.rg.location
-#   resource_group_name = azurerm_resource_group.rg.name
-# }
+# ---------- NSGs ----------
+resource "azurerm_network_security_group" "app_nsg" {
+  name                = "app-nsg"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+}
+resource "azurerm_network_security_group" "db_nsg" {
+  name                = "db-nsg"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+}
 
-# # ---------- NSG Rules for App ----------
-# resource "azurerm_network_security_rule" "app_http" {
-#   name                        = "allow-http"
-#   priority                    = 100
-#   direction                   = "Inbound"
-#   access                      = "Allow"
-#   protocol                    = "Tcp"
-#   source_port_range           = "*"
-#   destination_port_range      = "80"
-#   source_address_prefix       = "*"
-#   destination_address_prefix  = "*"
-#   resource_group_name         = azurerm_resource_group.rg.name
-#   network_security_group_name = azurerm_network_security_group.app_nsg.name
-# }
-# resource "azurerm_network_security_rule" "app_https" {
-#   name                        = "allow-https"
-#   priority                    = 110
-#   direction                   = "Inbound"
-#   access                      = "Allow"
-#   protocol                    = "Tcp"
-#   source_port_range           = "*"
-#   destination_port_range      = "443"
-#   source_address_prefix       = "*"
-#   destination_address_prefix  = "*"
-#   resource_group_name         = azurerm_resource_group.rg.name
-#   network_security_group_name = azurerm_network_security_group.app_nsg.name
-# }
+# ---------- NSG Rules for App ----------
+resource "azurerm_network_security_rule" "app_http" {
+  name                        = "allow-http"
+  priority                    = 100
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "80"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.rg.name
+  network_security_group_name = azurerm_network_security_group.app_nsg.name
+}
+resource "azurerm_network_security_rule" "app_https" {
+  name                        = "allow-https"
+  priority                    = 110
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "443"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.rg.name
+  network_security_group_name = azurerm_network_security_group.app_nsg.name
+}
 
 # # ---------- NSG Rules for DB ----------
 # resource "azurerm_network_security_rule" "db_sql" {

@@ -7,7 +7,7 @@ on:
 
 jobs:
   terraform:
-    runs-on: [self-hosted, self-hosted-runner1]  # This tells GitHub to pick a runner with BOTH labels
+    runs-on: [self-hosted, firstlabel]
 
     steps:
       - name: Checkout code
